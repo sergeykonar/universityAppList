@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private var searchButton: Button? = null
     private var listView: RecyclerView? = null
     private var progressBar: ProgressBar? = null
+    private var adapter: UniversityItemAdapter? = null
+
     private val mTag = MainActivity::class.java.canonicalName
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         listView = findViewById(R.id.listView)
         progressBar = findViewById(R.id.progressBar)
+        adapter = UniversityItemAdapter()
+        listView?.adapter = adapter
+        listView?.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, false)
 
     }
 
@@ -52,9 +57,7 @@ class MainActivity : AppCompatActivity() {
                 is Resource.Data<*> -> {
                     progressBar?.visibility = View.GONE
                     Log.e(mTag, it.data.toString())
-                    val adapter = UniversityItemAdapter(it.data as ArrayList<UniversityItem>)
-                    listView?.adapter = adapter
-                    listView?.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL, false)
+                    adapter!!.setValue(it.data as ArrayList<UniversityItem>)
 
                 }
                 is Resource.Error -> {

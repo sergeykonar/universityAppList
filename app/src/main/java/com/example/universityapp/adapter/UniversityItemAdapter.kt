@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.UniversityItem
 import com.example.universityapp.R
 
-class UniversityItemAdapter(val data: ArrayList<UniversityItem>): RecyclerView.Adapter<UniversityItemAdapter.ViewHolder>() {
+class UniversityItemAdapter(var data: ArrayList<UniversityItem> = ArrayList()): RecyclerView.Adapter<UniversityItemAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val text: TextView = view.findViewById(R.id.name)
@@ -22,12 +22,17 @@ class UniversityItemAdapter(val data: ArrayList<UniversityItem>): RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.text.text = data[position].name
-        holder.website.text = data[position].web_pages[0]
-        Linkify.addLinks(holder.website, Linkify.WEB_URLS)
+            holder.text.text = data[position].name
+            holder.website.text = data[position].web_pages[0]
+            Linkify.addLinks(holder.website, Linkify.WEB_URLS)
     }
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    fun setValue(arrayList: ArrayList<UniversityItem>) {
+        data = arrayList
+        notifyDataSetChanged()
     }
 }
